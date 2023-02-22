@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jyjays.mapper.UserMapper">
+
+
+    <select id="selectUser" resultType="com.jyjays.domain.User" parameterType="com.jyjays.domain.User">
+        select * from loguesr where username=#{username} and password=#{password};
+    </select>
+
+    <insert id="insertUser" parameterType="com.jyjays.domain.User" keyProperty="id" useGeneratedKeys="true">
+        insert into loguesr (username,password) values(#{username},#{password});
+    </insert>
+
+    <update id="updateUserPassword" parameterType="map">
+        update loguesr
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userPassword != null and userPassword!= ''">password  = #{password},</if>
+        </trim>
+        where id = #{id};
+    </update>
+
+    <delete id="deleteUser" parameterType="string">
+        delete from loguesr where
+            <if test="password !=null and password !=' ' ">
+                password=#{password}
+            </if>
+    </delete>
+</mapper>
