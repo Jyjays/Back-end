@@ -17,6 +17,8 @@ public interface UserService {
     public User selectUserbyName(String username);
 
     public User selectUserWithoutId(String username,String password);
+
+    public User selectUserbyMap(Map<String,String> map);
     /**
      *
      * @param user
@@ -24,8 +26,8 @@ public interface UserService {
      */
     public boolean insertUser(User user);
 
-    public boolean updateUserPassword(Map<String,Object> map);
+    public boolean updateUserPassword(Map<String, String> map);
 
-    public boolean deleteUser(String password);
+    public boolean deleteUser(User user);
 
 }

@@ -5,6 +5,9 @@ server:
   port: 80
 
 spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

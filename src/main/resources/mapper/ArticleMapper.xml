@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jyjays.mapper.ArticleMapper">
+
+
+    <select id="selectArticlebyWriter" resultType="Article">
+        select * from article where writer=#{writer}
+    </select>
+
+    <select id="selectArticlebyTitle" resultType="Article">
+        select *from article where
+        <if test="title!=null">
+            title=#{title}
+        </if>
+    </select>
+    <select id="selectArticlebyCondition" resultType="Article">
+        select * from article
+        where
+        <choose>
+            <when test="writer!=null">
+                writer=#{writer}
+            </when>
+            <when test="title!=null and title!=''">
+                title like #{title}
+            </when>
+            <otherwise>
+                1=1
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="saveArticle" >
+        insert into article(user_id, writer, article, title, comment_id) VALUES(#{userId},#{writer},#{article},#{title},#{commentId})
+    </insert>
+
+<!--    <update id="updatArticle">-->
+<!--        update article set-->
+<!--    </update>-->
+
+
+</mapper>

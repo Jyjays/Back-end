@@ -17,6 +17,10 @@ public class Result {
         this.code = code;
         this.msg = msg;
     }
+    public Result(Integer code,String msg){
+        this.code=code;
+        this.msg=msg;
+    }
 
     /**
      * 获取

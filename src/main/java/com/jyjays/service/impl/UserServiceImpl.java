@@ -29,17 +29,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User selectUserbyMap(Map<String, String> map) {
+        return userMapper.selectUserbyMap(map);
+    }
+
+    @Override
     public boolean insertUser(User user) {
         return userMapper.insertUser(user)>0;
     }
 
     @Override
-    public boolean updateUserPassword(Map<String, Object> map) {
+    public boolean updateUserPassword(Map<String, String> map) {
         return userMapper.updateUserPassword(map)>0;
     }
 
     @Override
-    public boolean deleteUser(String password) {
-        return userMapper.deleteUser(password)>0;
+    public boolean deleteUser(User user) {
+        return userMapper.deleteUser(user)>0;
     }
 }
