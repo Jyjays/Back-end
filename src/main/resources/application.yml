@@ -5,6 +5,18 @@ server:
   port: 80
 
 spring:
+  redis:
+    host: 192.168.15.128
+    port: 6379
+    password: jys20030827
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8 #最大连接
+        max-idle: 8 #最大空闲链接
+        max-wait: 100 #连接等待时间
+        min-idle: 0 #最小空闲链接
+
   mvc:
     servlet:
       load-on-startup: 1

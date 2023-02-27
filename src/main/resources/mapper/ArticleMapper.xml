@@ -7,13 +7,13 @@
 
 
     <select id="selectArticlebyWriter" resultType="Article">
-        select * from article where writer=#{writer}
+        select * from article where writer=#{writer};
     </select>
 
     <select id="selectArticlebyTitle" resultType="Article">
         select *from article where
         <if test="title!=null">
-            title=#{title}
+            title=#{title};
         </if>
     </select>
     <select id="selectArticlebyCondition" resultType="Article">
@@ -27,18 +27,30 @@
                 title like #{title}
             </when>
             <otherwise>
-                1=1
+                1=1;
             </otherwise>
         </choose>
     </select>
 
     <insert id="saveArticle" >
-        insert into article(user_id, writer, article, title, comment_id) VALUES(#{userId},#{writer},#{article},#{title},#{commentId})
+        insert into article(user_id, writer, article, title, comment_id) VALUES(#{userId},#{writer},#{article},#{title},#{commentId});
+        insert into article_like(id,'like') VALUES(#{userId},0);
     </insert>
 
-<!--    <update id="updatArticle">-->
-<!--        update article set-->
-<!--    </update>-->
+    <update id="updatArticle" parameterType="map">
+        update article
+        <set>
+            <if test="title !=null and title !=' '">
+                title=#{title},
+            </if>
+            <if test="article!=null and article !=' '">
+                article=#{article}
+            </if>
+        </set>
+        where writer=#{writer}
+    </update>
 
-
+    <delete id="deleteArticle" >
+        delete from article where writer=#{writer} and title=#{title};
+    </delete>
 </mapper>

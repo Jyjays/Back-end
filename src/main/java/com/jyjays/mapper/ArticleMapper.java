@@ -4,6 +4,7 @@ import com.jyjays.domain.Article;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ArticleMapper {
@@ -16,6 +17,8 @@ public interface ArticleMapper {
 
     int saveArticle(Article article);
 
-//    int updatArticle(Article article);
+    int updatArticle(Map<String,Object> map);
+
+    int deleteArticle(String writer ,String title);
 
 }
