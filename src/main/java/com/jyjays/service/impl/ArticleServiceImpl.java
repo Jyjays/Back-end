@@ -1,5 +1,4 @@
 package com.jyjays.service.impl;
-
 import com.jyjays.domain.Article;
 import com.jyjays.mapper.ArticleMapper;
 import com.jyjays.service.ArticleService;
@@ -11,9 +10,13 @@ import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
-
     @Autowired
-    private ArticleMapper;
+    private ArticleMapper articleMapper;
+
+    @Override
+    public List<Article> selectAll() {
+        return null;
+    }
 
     @Override
     public List<Article> selectArticlebyWriter(String writer) {
@@ -26,7 +29,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article selectArticlebyCondition(String writer, String title) {
+    public List<Article> selectArticlebyCondition(String writer, String title) {
         return null;
     }
 

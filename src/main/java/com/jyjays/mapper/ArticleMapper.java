@@ -1,6 +1,7 @@
 package com.jyjays.mapper;
 
 import com.jyjays.domain.Article;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +14,9 @@ public interface ArticleMapper {
 
     List<Article> selectArticlebyTitle(String title);
 
-    List<Article> selectArticlebyCondition(String writer ,String title);
+    List<Article> selectArticlebyCondition(String writer,String title);
+
+    List<Article> selectAll();
 
     int saveArticle(Article article);
 

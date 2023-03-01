@@ -31,6 +31,9 @@
             </otherwise>
         </choose>
     </select>
+    <select id="selectAll" resultType="com.jyjays.domain.Article">
+        select * from article;
+    </select>
 
     <insert id="saveArticle" >
         insert into article(user_id, writer, article, title, comment_id) VALUES(#{userId},#{writer},#{article},#{title},#{commentId});

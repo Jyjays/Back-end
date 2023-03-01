@@ -1,6 +1,7 @@
 package com.jyjays.mapper;
 
 import com.jyjays.domain.User;
+import com.jyjays.dto.LoginDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -16,14 +17,14 @@ public interface UserMapper
     @Select("select *from loguesr where username=#{username} and password=#{password}")
     User selectUserWithoutId(String username,String password);
 
-    User selectUserbyMap(Map<String,String> map);
+//    User selectUserbyMap(Map<String,String> map);
 
-    User selectUser(User user);
+    User selectUser(LoginDto loginDto);
 
     int insertUser(User user);
 
     //public int insertUser(Map<String,Object> map);
-    int updateUserPassword(Map<String,String> map);
+    int updateUserPassword(Map<String,Object> map);
 
-    int deleteUser(User user);
+    int deleteUser(LoginDto loginDto);
 }

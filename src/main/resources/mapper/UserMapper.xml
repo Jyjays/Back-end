@@ -6,18 +6,18 @@
 <mapper namespace="com.jyjays.mapper.UserMapper">
 
 
-    <select id="selectUser" resultType="com.jyjays.domain.User" parameterType="com.jyjays.domain.User">
+    <select id="selectUser" resultType="User" parameterType="com.jyjays.dto.LoginDto">
         select * from loguesr where username=#{username} and password=#{password};
     </select>
 
-    <select id="selectUserbyMap" resultType="com.jyjays.domain.User" parameterType="map">
-        select * from loguesr where
-        <trim suffixOverrides="and">
-            <if test="username!=null and username != ' '"> username=#{username} and</if>
-            <if test="password!=null and password !=' '"> password =#{password}</if>
-        </trim>
+<!--    <select id="selectUserbyMap" resultType="com.jyjays.domain.User" parameterType="map">-->
+<!--        select * from loguesr where-->
+<!--        <trim suffixOverrides="and">-->
+<!--            <if test="username!=null and username != ' '"> username=#{username} and</if>-->
+<!--            <if test="password!=null and password !=' '"> password =#{password}</if>-->
+<!--        </trim>-->
 
-    </select>
+<!--    </select>-->
 
     <insert id="insertUser" parameterType="com.jyjays.domain.User" keyProperty="id" useGeneratedKeys="true">
         insert into loguesr (username,password) values(#{username},#{password});
@@ -25,14 +25,14 @@
 
     <update id="updateUserPassword" parameterType="map">
         update loguesr
-        <trim prefix="set" suffixOverrides=",">
-            <if test="password != null and password!= ' '">password  = #{password},</if>
-            <if test="username != null and username!= ' '">username = #{username} </if>
-        </trim>
+        <set>
+            <if test="password != null and password!=' '">password  = #{password},</if>
+            <if test="username != null">username = #{username} </if>
+        </set>
         where id = #{id};
     </update>
 
-    <delete id="deleteUser" parameterType="com.jyjays.domain.User" >
+    <delete id="deleteUser" parameterType="com.jyjays.dto.LoginDto" >
         delete from loguesr where
             <if test="password !=null and password !=' ' ">
                 username=#{username} and password=#{password}

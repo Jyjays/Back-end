@@ -9,11 +9,13 @@ import java.util.Map;
 @Transactional
 public interface ArticleService {
 
+    public List<Article> selectAll();
+
     public List<Article> selectArticlebyWriter(String writer);
 
     public List<Article> selectArticlebyTitle(String title);
 
-    public Article selectArticlebyCondition(String writer,String title);
+    public List<Article> selectArticlebyCondition(String writer,String title);
 
     public boolean saveArticle(Article article);
 
