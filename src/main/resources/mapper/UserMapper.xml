@@ -9,8 +9,11 @@
     <select id="selectUser" resultType="User" parameterType="com.jyjays.dto.LoginDto">
         select * from loguesr where username=#{username} and password=#{password};
     </select>
+    <select id="selectPassword" resultType="java.lang.String">
+        select password from loguesr where phone=#{phone};
+    </select>
 
-<!--    <select id="selectUserbyMap" resultType="com.jyjays.domain.User" parameterType="map">-->
+    <!--    <select id="selectUserbyMap" resultType="com.jyjays.domain.User" parameterType="map">-->
 <!--        select * from loguesr where-->
 <!--        <trim suffixOverrides="and">-->
 <!--            <if test="username!=null and username != ' '"> username=#{username} and</if>-->
@@ -20,7 +23,7 @@
 <!--    </select>-->
 
     <insert id="insertUser" parameterType="com.jyjays.domain.User" keyProperty="id" useGeneratedKeys="true">
-        insert into loguesr (username,password) values(#{username},#{password});
+        insert into loguesr (username,password,phone) values(#{username},#{password},#{phone});
     </insert>
 
     <update id="updateUserPassword" parameterType="map">

@@ -1,6 +1,8 @@
 package com.jyjays.mapper;
 
 import com.jyjays.domain.Article;
+import com.jyjays.dto.ArticleDto;
+import com.jyjays.dto.ArticleMsg;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,14 +16,16 @@ public interface ArticleMapper {
 
     List<Article> selectArticlebyTitle(String title);
 
-    List<Article> selectArticlebyCondition(String writer,String title);
+    Article selectArticlebyCondition(String writer,String title);
 
-    List<Article> selectAll();
+    List<Article> selectFuzzy(String msg,int page);
+
+    List<Article> selectAll(int page);
 
     int saveArticle(Article article);
 
-    int updatArticle(Map<String,Object> map);
+    int updatArticle(ArticleDto articleDto);
 
-    int deleteArticle(String writer ,String title);
+    int deleteArticle(ArticleMsg articleMsg);
 
 }

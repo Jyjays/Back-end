@@ -7,11 +7,12 @@ import com.jyjays.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
 
@@ -23,6 +24,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User selectUserbyName(String username) {
         return userMapper.selectbyName(username);
+    }
+
+    @Override
+    public String selectPassword(String phone) {
+        return userMapper.selectPassword(phone);
     }
 
     @Override

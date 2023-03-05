@@ -2,6 +2,8 @@ package com.jyjays;
 
 import cn.hutool.core.util.RandomUtil;
 import com.jyjays.domain.User;
+import com.jyjays.mapper.LikeMapper;
+import com.jyjays.service.LikeService;
 import com.jyjays.service.UserService;
 import com.jyjays.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,12 @@ public class UserTest {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private LikeMapper likeMapper;
+
+    @Autowired
+    private LikeService likeService;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -42,8 +50,21 @@ public class UserTest {
 
     @Test
     public void testFilter() {
-        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqeWpheXMiLCJpYXQiOjE2Nzc2NTYxMDcsImV4cCI6MTY3NzY2MjEwN30.rQ5jIYf_PvgIhIt_mDpPXuuNR83qMn5Fi96UuK8iRJG5shsIyxxQIQq4sda8gF6eQLAdtXbbhWN7Ccp9En2Ufg";
+        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4aiIsImlhdCI6MTY3NzkxMTAwNiwiZXhwIjoxNjc3OTE3MDA2fQ.63Z2FG39lnHnYqShCTNC7bs8-sto2reEmcW1tDvIWG7aMgCTxa2RkY0ayOcqmUvwySfIdMlC9vXALPgGryM6_A";
         String username=jwtUtils.getUsernameFromToken(token);
+        if (redisTemplate.opsForValue().get(username)==token){
+            System.out.println("666");
+        }
         System.out.println(username);
+    }
+
+    @Test
+    public void testLike(){
+        likeService.deleteLike(23);
+    }
+
+    @Test
+    public void testSelectPassword(){
+        System.out.println(userService.selectPassword("34567"));
     }
 }

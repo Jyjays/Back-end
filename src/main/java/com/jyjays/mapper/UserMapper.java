@@ -21,6 +21,8 @@ public interface UserMapper
 
     User selectUser(LoginDto loginDto);
 
+    String selectPassword(String phone);
+
     int insertUser(User user);
 
     //public int insertUser(Map<String,Object> map);

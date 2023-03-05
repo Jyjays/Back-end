@@ -2,6 +2,7 @@ package com.jyjays.controller;
 
 import com.jyjays.domain.User;
 import com.jyjays.dto.LoginDto;
+import com.jyjays.dto.RegisterDto;
 import com.jyjays.service.UserService;
 import com.jyjays.utils.JwtUtils;
 import com.jyjays.utils.RedisUtil;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 
@@ -17,12 +19,12 @@ import java.util.Map;
 @Api(tags="登录注册")
 @RequestMapping("/User")
 public class UserController {
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private RedisUtil redisUtil;
-    @Autowired
+    @Resource
     private JwtUtils jwtUtils;
 
     @ApiOperation(value = "用户登录" )
@@ -39,12 +41,14 @@ public class UserController {
 
     @ApiOperation(value = "用户注册")
     @PostMapping("/2")
-    public Result Register(@RequestBody User user){
-        User user1=userService.selectUserbyName(user.getUsername());
+    public Result Register(@RequestBody RegisterDto registerDto){
+
+        User user1=userService.selectUserbyName(registerDto.getUsername());
         if(user1!=null){
             return new Result(Code.SAVE_ERR,"用户已存在");
         }
-        String token= jwtUtils.generateToken(user.getUsername());
+        String token= jwtUtils.generateToken(registerDto.getUsername());
+        User user=new User(0,registerDto.getUsername(),registerDto.getPassword(),registerDto.getPhone());
         boolean flag=userService.insertUser(user);
         redisUtil.set(user.getUsername(), token);
         return new Result(token,flag? Code.SAVE_OK:Code.SAVE_ERR,flag? "注册成功":"注册失败");
@@ -66,6 +70,19 @@ public class UserController {
     public Result Delete(@RequestBody LoginDto loginDto){
         boolean flag=userService.deleteUser(loginDto);
         return new Result(flag? Code.DELETE_OK:Code.DELETE_ERR,flag?"删除成功":"删除失败");
+    }
+
+    @ApiOperation(value = "找回密码")
+    @PostMapping("/5")
+    public Result SelectPassword(@RequestParam String phone) {
+        String password = userService.selectPassword(phone);
+        System.out.println(password);
+        if (password == null || password.length() == 0) {
+            return new Result(Code.GET_ERR, "号码不存在");
+        } else {
+            return new Result(password, Code.GET_OK, "找回成功");
+
+        }
     }
 
 }

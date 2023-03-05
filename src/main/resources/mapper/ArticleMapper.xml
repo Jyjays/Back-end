@@ -5,42 +5,37 @@
 
 <mapper namespace="com.jyjays.mapper.ArticleMapper">
 
+    <resultMap id="articleResultMap" type="Article">
+        <result column="user_id" property="userId"/>
+        <result column="comment_id" property="commentId"/>
+    </resultMap>
 
-    <select id="selectArticlebyWriter" resultType="Article">
+    <select id="selectArticlebyWriter" resultMap="articleResultMap">
         select * from article where writer=#{writer};
     </select>
 
-    <select id="selectArticlebyTitle" resultType="Article">
+    <select id="selectArticlebyTitle" resultMap="articleResultMap">
         select *from article where
         <if test="title!=null">
             title=#{title};
         </if>
     </select>
-    <select id="selectArticlebyCondition" resultType="Article">
+    <select id="selectArticlebyCondition" resultMap="articleResultMap">
         select * from article
-        where
-        <choose>
-            <when test="writer!=null">
-                writer=#{writer}
-            </when>
-            <when test="title!=null and title!=''">
-                title like #{title}
-            </when>
-            <otherwise>
-                1=1;
-            </otherwise>
-        </choose>
+        where writer=#{writer} and title=#{title};
     </select>
     <select id="selectAll" resultType="com.jyjays.domain.Article">
-        select * from article;
+        select * from article join article_like al on article.comment_id = al.id order by al.`like` limit #{page},10;
+    </select>
+    <select id="selectFuzzy" resultType="com.jyjays.domain.Article">
+        SELECT * FROM article WHERE title LIKE CONCAT('%', #{msg}, '%') OR writer LIKE CONCAT('%', #{msg}, '%') LIMIT #{page}, 10 ;
     </select>
 
     <insert id="saveArticle" >
         insert into article(user_id, writer, article, title, comment_id) VALUES(#{userId},#{writer},#{article},#{title},#{commentId});
-        insert into article_like(id,'like') VALUES(#{userId},0);
     </insert>
 
-    <update id="updatArticle" parameterType="map">
+    <update id="updatArticle" parameterType="com.jyjays.dto.ArticleDto">
         update article
         <set>
             <if test="title !=null and title !=' '">
@@ -53,7 +48,7 @@
         where writer=#{writer}
     </update>
 
-    <delete id="deleteArticle" >
+    <delete id="deleteArticle" parameterType="com.jyjays.dto.ArticleMsg" >
         delete from article where writer=#{writer} and title=#{title};
     </delete>
 </mapper>

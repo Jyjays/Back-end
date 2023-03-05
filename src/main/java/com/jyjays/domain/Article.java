@@ -5,7 +5,7 @@ public class Article {
     private String writer;
     private String article;
     private String title;
-    private  int commentId;
+    private int commentId;
 
     public Article() {
     }

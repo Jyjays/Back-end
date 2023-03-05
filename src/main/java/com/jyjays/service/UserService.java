@@ -13,6 +13,7 @@ public interface UserService {
 
     public User selectUserbyName(String username);
 
+    public String selectPassword(String phone);
 
 //    public User selectUserbyMap(Map<String,String> map);
     public boolean insertUser(User user);
