@@ -2,6 +2,7 @@ package com.jyjays.service.impl;
 import com.jyjays.domain.Article;
 import com.jyjays.dto.ArticleDto;
 import com.jyjays.dto.ArticleMsg;
+import com.jyjays.dto.ArticleUpd;
 import com.jyjays.mapper.ArticleMapper;
 import com.jyjays.service.ArticleService;
 import org.springframework.stereotype.Service;
@@ -45,8 +46,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public boolean updateArticle(ArticleDto articleDto) {
-        return articleMapper.updatArticle(articleDto)>0;
+    public boolean updateArticle(ArticleUpd articleUpd) {
+        return articleMapper.updateArticle(articleUpd)>0;
     }
 
     @Override

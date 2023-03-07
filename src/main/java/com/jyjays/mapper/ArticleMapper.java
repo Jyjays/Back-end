@@ -3,8 +3,10 @@ package com.jyjays.mapper;
 import com.jyjays.domain.Article;
 import com.jyjays.dto.ArticleDto;
 import com.jyjays.dto.ArticleMsg;
+import com.jyjays.dto.ArticleUpd;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,7 @@ public interface ArticleMapper {
 
     int saveArticle(Article article);
 
-    int updatArticle(ArticleDto articleDto);
+    int updateArticle(ArticleUpd articleUpd);
 
     int deleteArticle(ArticleMsg articleMsg);
 

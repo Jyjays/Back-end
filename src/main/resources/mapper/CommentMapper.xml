@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jyjays.mapper.CommentMapper">
+
+    <resultMap id="commentResultMap" type="Comment">
+        <result column="id" property="id"/>
+    </resultMap>
+
+    <select id="selectComment" resultMap="commentResultMap">
+        select * from comment where id=#{commentId};
+    </select>
+    <select id="selectByUser" resultMap="commentResultMap">
+        select * from comment where commentator =#{commentator};
+    </select>
+
+    <insert id="createComment">
+        insert into comment(id) VALUE(#{commentId});
+    </insert>
+
+    <update id="insertComment">
+        update comment
+    <set>
+        <if test="title !=null and title !=' '">
+            title=#{title},
+        </if>
+        <if test="article!=null and article !=' '">
+            article=#{article}
+        </if>
+    </set>
+        where writer=#{writer}
+    </update>
+
+    <delete id="deleteComment">
+        delete from comment where id=#{commentId};
+    </delete>
+
+</mapper>
+
+

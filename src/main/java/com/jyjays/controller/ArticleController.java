@@ -4,8 +4,10 @@ import com.jyjays.domain.Article;
 import com.jyjays.domain.User;
 import com.jyjays.dto.ArticleDto;
 import com.jyjays.dto.ArticleMsg;
+import com.jyjays.dto.ArticleUpd;
 import com.jyjays.dto.LikeDto;
 import com.jyjays.service.ArticleService;
+import com.jyjays.service.CommentService;
 import com.jyjays.service.LikeService;
 import com.jyjays.service.UserService;
 import com.jyjays.utils.JwtUtils;
@@ -31,6 +33,9 @@ public class ArticleController {
     private LikeService likeService;
 
     @Resource
+    private CommentService commentService;
+
+    @Resource
     private JwtUtils jwtUtils;
 
     @Resource
@@ -47,17 +52,17 @@ public class ArticleController {
         }
     }
 
-    @GetMapping("/sel/")
+    @GetMapping("/sel/{msg}/{page}")
     @ApiOperation(value = "搜索博客")
-    public Result selectArticle(@RequestParam String msg,@RequestParam int page){
-        try {
+    public Result selectArticle(@PathVariable String msg, @PathVariable int page){
             return new Result(articleService.selectFuzzy(msg, page), Code.GET_OK, "查询成功");
-        }catch (Exception e){
-            return new Result(Code.GET_ERR,"查询失败");
-        }
+
     }
 
-    @PostMapping
+
+
+
+    @PostMapping("/p")
     @ApiOperation(value = "上传博客")
     public Result saveArticle(@RequestBody Article article){
         User user = userService.selectUserbyName(article.getWriter());
@@ -73,17 +78,19 @@ public class ArticleController {
         LikeDto likeDto=new LikeDto(article.getCommentId(),0);
         boolean flag=articleService.saveArticle(article);
         likeService.setlike(likeDto);
+        commentService.createComment(article.getCommentId());
         return new Result(article,flag? Code.SAVE_OK:Code.SAVE_ERR,flag? "保存成功":"保存失败");
     }
 
-    @PutMapping
+    @PutMapping("/u")
     @ApiOperation(value = "修改博客")
-    public Result updateArticle(@RequestBody ArticleDto articleDto){
-        boolean flag =articleService.updateArticle(articleDto);
-        return new Result(articleDto,flag? Code.UPDATE_OK:Code.UPDATE_ERR,flag? "更新成功":"更新失败");
+    public Result updateArticle(@RequestBody ArticleUpd articleUpd) {
+        boolean flag = articleService.updateArticle(articleUpd);
+        return new Result(articleUpd, flag ? Code.UPDATE_OK : Code.UPDATE_ERR, flag ? "更新成功" : "更新失败");
     }
 
-    @DeleteMapping
+
+    @DeleteMapping("/d")
     @Transactional
     @ApiOperation(value = "删除文章")
     public Result deleteArticle(@RequestBody ArticleMsg articleMsg){

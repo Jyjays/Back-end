@@ -3,6 +3,7 @@ package com.jyjays.service;
 import com.jyjays.domain.Article;
 import com.jyjays.dto.ArticleDto;
 import com.jyjays.dto.ArticleMsg;
+import com.jyjays.dto.ArticleUpd;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ArticleService {
 
     public boolean saveArticle(Article article);
 
-    public boolean updateArticle(ArticleDto articleDto);
+    public boolean updateArticle(ArticleUpd articleUpd);
 
     public boolean deleteArticle(ArticleMsg articleMsg);
 

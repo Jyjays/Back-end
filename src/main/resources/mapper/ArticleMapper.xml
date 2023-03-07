@@ -10,6 +10,7 @@
         <result column="comment_id" property="commentId"/>
     </resultMap>
 
+
     <select id="selectArticlebyWriter" resultMap="articleResultMap">
         select * from article where writer=#{writer};
     </select>
@@ -24,10 +25,10 @@
         select * from article
         where writer=#{writer} and title=#{title};
     </select>
-    <select id="selectAll" resultType="com.jyjays.domain.Article">
+    <select id="selectAll" resultMap="articleResultMap">
         select * from article join article_like al on article.comment_id = al.id order by al.`like` limit #{page},10;
     </select>
-    <select id="selectFuzzy" resultType="com.jyjays.domain.Article">
+    <select id="selectFuzzy" resultMap="articleResultMap">
         SELECT * FROM article WHERE title LIKE CONCAT('%', #{msg}, '%') OR writer LIKE CONCAT('%', #{msg}, '%') LIMIT #{page}, 10 ;
     </select>
 
@@ -35,18 +36,19 @@
         insert into article(user_id, writer, article, title, comment_id) VALUES(#{userId},#{writer},#{article},#{title},#{commentId});
     </insert>
 
-    <update id="updatArticle" parameterType="com.jyjays.dto.ArticleDto">
+    <update id="updateArticle" parameterType="com.jyjays.dto.ArticleUpd">
         update article
         <set>
-            <if test="title !=null and title !=' '">
-                title=#{title},
+            <if test='changedTitle != null and changedTitle !=" "' >
+                title = #{changedTitle},
             </if>
-            <if test="article!=null and article !=' '">
-                article=#{article}
+            <if test='article != null and article != " "'>
+                article = #{article}
             </if>
         </set>
-        where writer=#{writer}
+        where writer = #{writer} and title = #{title};
     </update>
+
 
     <delete id="deleteArticle" parameterType="com.jyjays.dto.ArticleMsg" >
         delete from article where writer=#{writer} and title=#{title};

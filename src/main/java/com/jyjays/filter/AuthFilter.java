@@ -15,7 +15,7 @@ import java.io.IOException;
 @Slf4j
 @WebFilter(urlPatterns = "/*")
 public class AuthFilter implements Filter {
-    private static final String[] WHITE = {"/User/login", "/User/2"};
+    private static final String[] WHITE = {"/User/login", "/User/2","/article/allArticle/{page}"};
 
     @Autowired
     private RedisUtil redisUtil;

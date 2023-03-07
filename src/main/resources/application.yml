@@ -3,7 +3,9 @@
 
 server:
   port: 80
-
+#  servlet:
+#    context-path: /User/2
+#
 
 
 spring:

@@ -4,6 +4,9 @@ import com.jyjays.controller.Code;
 import com.jyjays.controller.Result;
 import com.jyjays.domain.Article;
 import com.jyjays.domain.User;
+import com.jyjays.dto.ArticleDto;
+import com.jyjays.dto.ArticleMsg;
+import com.jyjays.dto.ArticleUpd;
 import com.jyjays.dto.LikeDto;
 import com.jyjays.service.ArticleService;
 import com.jyjays.service.LikeService;
@@ -36,8 +39,18 @@ public class ArticleTest {
 
     @Test
     public void testSelectFuzzy(){
-        List<Article> article= articleService.selectFuzzy("商", 0);
+        List<Article> article= articleService.selectFuzzy("xj", 0);
         System.out.println(article);
+    }
+
+    @Test
+    public void testUpdateArticle(){
+        ArticleUpd articleUpd=new ArticleUpd();
+        articleUpd.setArticle("987");
+        articleUpd.setTitle(" ");
+        articleUpd.setChangedTitle("tongshan");
+        articleUpd.setWriter("xj");
+        System.out.println(articleService.updateArticle(articleUpd));
     }
 
 
