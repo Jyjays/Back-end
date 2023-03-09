@@ -1,7 +1,13 @@
 package com.jyjays.controller;
 
+import java.util.List;
+
 public class Result {
     private Object data;
+
+    private List<Object> list;
+
+    private Object data2;
     private Integer code;
     private String msg;
 
@@ -20,6 +26,21 @@ public class Result {
     public Result(Integer code,String msg){
         this.code=code;
         this.msg=msg;
+    }
+
+    public Result(Object data, List<Object> list,Integer code, String msg) {
+        this.data = data;
+        this.list=list;
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public Result(Object data, List<Object> list,Object data2,Integer code, String msg) {
+        this.data = data;
+        this.list=list;
+        this.data2=data2;
+        this.code = code;
+        this.msg = msg;
     }
 
     /**

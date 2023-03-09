@@ -1,11 +1,11 @@
 package com.jyjays.domain;
 
 public class Article {
-    private int userId;
-    private String writer;
-    private String article;
-    private String title;
-    private int commentId;
+        private int userId;
+        private String writer;
+        private String article;
+        private String title;
+        private int commentId;
 
     public Article() {
     }

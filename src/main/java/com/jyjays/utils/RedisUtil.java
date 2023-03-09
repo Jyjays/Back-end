@@ -4,6 +4,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -67,5 +70,22 @@ public class RedisUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void putHash(String key, String hashKey, Object value) {
+        redisTemplate.opsForHash().put(key, hashKey, value);
+    }
+
+    public Object getHash(String key, String hashKey) {
+        return redisTemplate.opsForHash().get(key, hashKey);
+    }
+
+    public List<Object> getEntries(String key) {
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(key);
+        return new ArrayList<>(entries.values());
+    }
+
+    public void removeHash(String key, String hashKey) {
+        redisTemplate.opsForHash().delete(key, hashKey);
     }
 }

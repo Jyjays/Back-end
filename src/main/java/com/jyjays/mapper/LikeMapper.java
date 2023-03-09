@@ -10,8 +10,8 @@ public interface LikeMapper {
     @Insert("insert into article_like(id, `like`)VALUES (#{id},#{like}) ;")
     void setLike(LikeDto likeDto);
 
-    @Update("set article_like.`like` =article_like.`like`+1 ")
-    void increaseLike(int id);
+    @Update("update article_like set `like` = `like`+1 where id=#{id}")
+    int increaseLike(int id);
 
     @Select("select * from article_like where id=#{id}")
     Like getLike(int id);

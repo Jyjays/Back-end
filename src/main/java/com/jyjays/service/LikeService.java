@@ -9,7 +9,7 @@ public interface LikeService {
 
     public void setlike(LikeDto likeDto);
 
-    public void increaseLike(int id);
+    public boolean increaseLike(int id);
 
     public Like selectLike(int id);
 

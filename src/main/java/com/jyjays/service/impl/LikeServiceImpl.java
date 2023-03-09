@@ -19,8 +19,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public void increaseLike(int id) {
-        likeMapper.increaseLike(id);
+    public boolean increaseLike(int id) {
+        return likeMapper.increaseLike(id)>0;
     }
 
     @Override

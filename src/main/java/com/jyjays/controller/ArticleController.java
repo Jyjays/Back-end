@@ -1,15 +1,13 @@
 package com.jyjays.controller;
 
 import com.jyjays.domain.Article;
+import com.jyjays.domain.Comment;
 import com.jyjays.domain.User;
 import com.jyjays.dto.ArticleDto;
 import com.jyjays.dto.ArticleMsg;
 import com.jyjays.dto.ArticleUpd;
 import com.jyjays.dto.LikeDto;
-import com.jyjays.service.ArticleService;
-import com.jyjays.service.CommentService;
-import com.jyjays.service.LikeService;
-import com.jyjays.service.UserService;
+import com.jyjays.service.*;
 import com.jyjays.utils.JwtUtils;
 import com.jyjays.utils.RedisUtil;
 import io.swagger.annotations.Api;
@@ -18,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @Api(value = "博客")
@@ -39,7 +38,7 @@ public class ArticleController {
     private JwtUtils jwtUtils;
 
     @Resource
-    private RedisUtil redisUtil;
+    private CommentRedisService commentRedisService;
 
 
     @GetMapping("/allArticle/{page}")
@@ -58,7 +57,6 @@ public class ArticleController {
             return new Result(articleService.selectFuzzy(msg, page), Code.GET_OK, "查询成功");
 
     }
-
 
 
 
