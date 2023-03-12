@@ -28,6 +28,8 @@ public interface ArticleMapper {
 
     int updateArticle(ArticleUpd articleUpd);
 
+    int updateWriter(int userId,String writer);
+
     int deleteArticle(ArticleMsg articleMsg);
 
 }

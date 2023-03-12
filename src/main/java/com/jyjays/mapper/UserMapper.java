@@ -2,6 +2,8 @@ package com.jyjays.mapper;
 
 import com.jyjays.domain.User;
 import com.jyjays.dto.LoginDto;
+import com.jyjays.dto.PhoneDto;
+import com.jyjays.dto.RegisterDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -21,12 +23,12 @@ public interface UserMapper
 
     User selectUser(LoginDto loginDto);
 
-    String selectPassword(String phone);
+    String selectPassword(PhoneDto phoneDto);
 
     int insertUser(User user);
 
     //public int insertUser(Map<String,Object> map);
-    int updateUserPassword(Map<String,Object> map);
+    int updateUser(User user);
 
     int deleteUser(LoginDto loginDto);
 }

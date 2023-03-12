@@ -2,18 +2,20 @@ package com.jyjays.service.impl;
 
 import com.jyjays.domain.User;
 import com.jyjays.dto.LoginDto;
+import com.jyjays.dto.PhoneDto;
+import com.jyjays.mapper.ArticleMapper;
 import com.jyjays.mapper.UserMapper;
 import com.jyjays.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private ArticleMapper articleMapper;
 
 
     @Override
@@ -27,8 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String selectPassword(String phone) {
-        return userMapper.selectPassword(phone);
+    public String selectPassword(PhoneDto phoneDto) {
+        return userMapper.selectPassword(phoneDto);
     }
 
     @Override
@@ -37,8 +39,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserPassword(Map<String, Object> map) {
-        return userMapper.updateUserPassword(map)>0;
+    public boolean updateUser(User registerDto) {
+        int flag =  userMapper.updateUser(registerDto);
+        int flag2= articleMapper.updateWriter(registerDto.getId(), registerDto.getUsername());
+        return flag>0 && flag2>0;
     }
 
     @Override

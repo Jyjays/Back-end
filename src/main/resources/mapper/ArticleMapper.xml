@@ -48,6 +48,11 @@
         </set>
         where writer = #{writer} and title = #{title};
     </update>
+    <update id="updateWriter" parameterType="map">
+        update article set
+            writer =#{writer}
+        where user_id=#{userId};
+    </update>
 
 
     <delete id="deleteArticle" parameterType="com.jyjays.dto.ArticleMsg" >

@@ -1,8 +1,6 @@
 package com.jyjays;
 
-import cn.hutool.core.util.RandomUtil;
 import com.jyjays.domain.User;
-import com.jyjays.mapper.LikeMapper;
 import com.jyjays.service.LikeService;
 import com.jyjays.service.UserService;
 import com.jyjays.utils.JwtUtils;
@@ -19,10 +17,7 @@ public class UserTest {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Autowired
-    private LikeMapper likeMapper;
-
-    @Autowired
+    @Autowired(required = false)
     private LikeService likeService;
 
     @Autowired
@@ -63,8 +58,11 @@ public class UserTest {
         likeService.deleteLike(23);
     }
 
+
     @Test
-    public void testSelectPassword(){
-        System.out.println(userService.selectPassword("34567"));
+    public void testRegister(){
+        User user=new User(0, " ", "  ","3 ");
+        userService.insertUser(user);
+        System.out.println(userService.selectUserbyName(user.getUsername()) );
     }
 }

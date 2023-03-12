@@ -1,27 +1,32 @@
 package com.jyjays.controller;
 
 import com.jyjays.domain.Article;
-import com.jyjays.domain.Comment;
+
 import com.jyjays.domain.User;
-import com.jyjays.dto.ArticleDto;
+
 import com.jyjays.dto.ArticleMsg;
 import com.jyjays.dto.ArticleUpd;
 import com.jyjays.dto.LikeDto;
 import com.jyjays.service.*;
-import com.jyjays.utils.JwtUtils;
-import com.jyjays.utils.RedisUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
+@Slf4j
 @RestController
 @Api(value = "博客")
 @RequestMapping("/article")
 public class ArticleController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProjectExceptionAdvice.class);
     @Resource
     private ArticleService articleService;
 
@@ -35,28 +40,33 @@ public class ArticleController {
     private CommentService commentService;
 
     @Resource
-    private JwtUtils jwtUtils;
+    private ResultService resultService;
 
-    @Resource
-    private CommentRedisService commentRedisService;
 
 
     @GetMapping("/allArticle/{page}")
     @ApiOperation(value = "查看所有")
-    public Result getAll(@PathVariable int page){
+    public Result getAll(@PathVariable int page) {
         try {
             return new Result(articleService.selectAll(page), Code.GET_OK, "查询成功");
-        }catch (Exception e){
-            return new Result(Code.GET_ERR,"查询失败");
+        } catch (Exception ex) {
+
+            logger.error("An error occurred while retrieving all articles", ex);
+            return new Result(null, Code.GET_ERR, "查询失败");
         }
     }
 
     @GetMapping("/sel/{msg}/{page}")
     @ApiOperation(value = "搜索博客")
-    public Result selectArticle(@PathVariable String msg, @PathVariable int page){
-            return new Result(articleService.selectFuzzy(msg, page), Code.GET_OK, "查询成功");
-
+    public Result selectArticle(@PathVariable String msg, @PathVariable int page) {
+        try {
+            return new Result(articleService.selectFuzzy(msg, page), Code.GET_OK, "搜索成功");
+        } catch (Exception ex) {
+            logger.error("An error occurred while searching articles", ex);
+            return new Result(null, Code.GET_ERR, "搜索失败");
+        }
     }
+
 
 
 
@@ -91,7 +101,9 @@ public class ArticleController {
     @DeleteMapping("/d")
     @Transactional
     @ApiOperation(value = "删除文章")
-    public Result deleteArticle(@RequestBody ArticleMsg articleMsg){
+    public Result deleteArticle(@RequestBody ArticleMsg articleMsg, BindingResult bindingResult){
+        Result sb =resultService.getResult(bindingResult);
+        if(sb!=null) return sb;
         Article article=articleService.selectArticlebyCondition(articleMsg.getWriter(), articleMsg.getTitle());
         boolean flag = articleService.deleteArticle(articleMsg)
                 && likeService.deleteLike(article.getCommentId());

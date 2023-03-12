@@ -4,8 +4,8 @@ import com.jyjays.controller.Code;
 import com.jyjays.utils.JwtUtils;
 import com.jyjays.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -15,16 +15,16 @@ import java.io.IOException;
 @Slf4j
 @WebFilter(urlPatterns = "/*")
 public class AuthFilter implements Filter {
-    private static final String[] WHITE = {"/User/login", "/User/2","/article/allArticle/{page}"};
+    private static final String[] WHITE = {"/User/login", "/User/2","/User/5"};
 
-    @Autowired
+    @Resource
     private RedisUtil redisUtil;
 
-    @Autowired
+    @Resource
     private JwtUtils jwtUtils;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 

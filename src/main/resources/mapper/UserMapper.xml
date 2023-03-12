@@ -10,7 +10,7 @@
         select * from loguesr where username=#{username} and password=#{password};
     </select>
     <select id="selectPassword" resultType="java.lang.String">
-        select password from loguesr where phone=#{phone};
+        select password from loguesr where username=#{username} and phone=#{phone};
     </select>
 
     <!--    <select id="selectUserbyMap" resultType="com.jyjays.domain.User" parameterType="map">-->
@@ -23,21 +23,42 @@
 <!--    </select>-->
 
     <insert id="insertUser" parameterType="com.jyjays.domain.User" keyProperty="id" useGeneratedKeys="true">
-        insert into loguesr (username,password,phone) values(#{username},#{password},#{phone});
+        insert into loguesr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null ">
+                password,
+            </if>
+            <if test="phone != null ">
+                phone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null ">
+                #{password},
+            </if>
+            <if test="phone != null ">
+                #{phone},
+            </if>
+        </trim>
     </insert>
 
-    <update id="updateUserPassword" parameterType="map">
-        update loguesr
-        <set>
-            <if test="password != null and password!=' '">password  = #{password},</if>
-            <if test="username != null">username = #{username} </if>
-        </set>
+
+
+    <update id="updateUser" parameterType="User">
+        update loguesr set
+        username =#{username},password=#{password},phone=#{phone}
         where id = #{id};
     </update>
 
     <delete id="deleteUser" parameterType="com.jyjays.dto.LoginDto" >
         delete from loguesr where
-            <if test="password !=null and password !=' ' ">
+            <if test="password !=null">
                 username=#{username} and password=#{password}
             </if>
     </delete>
